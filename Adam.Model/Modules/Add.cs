@@ -5,46 +5,47 @@ using Adam.Model.Metadata;
 using Adam.Model.Wrappers;
 
 namespace Adam.Model.Modules {
-	public class Add : IModule {
+    public class Add : IModule {
+        #region Public Properties
 
-		#region Public Properties
+        public string Description => "Adds fixed text to the filename.";
 
-		public string Description => "Adds fixed text to the filename.";
+        public string Name => "Add";
 
-		public string Name => "Add";
+        public bool Removable => true;
 
-		public bool Removable => true;
+        #region Options
 
-		#region Options
+        [OptionDescriptor(null, "Prefix", "Add text at the start of the filename.")]
+        public string Prefix { get; set; }
 
-		[OptionDescriptor(null, "Prefix", "Add text at the start of the filename.")]
-		public string Prefix { get; set; }
-		[OptionDescriptor("Insert", "Text", "The text to insert at the specified location.")]
-		public string Insert { get; set; }
-		[OptionDescriptor("Insert", "Position", "The position to insert text at.")]
-		public int InsertionPosition { get; set; }
-		[OptionDescriptor(null, "Suffix", "Add text at the start of the filename.")]
-		public string Suffix { get; set; }
+        [OptionDescriptor("Insert", "Text", "The text to insert at the specified location.")]
+        public string Insert { get; set; }
 
-		#endregion
+        [OptionDescriptor("Insert", "Position", "The position to insert text at.")]
+        public int InsertionPosition { get; set; }
 
-		#endregion Public Properties
+        [OptionDescriptor(null, "Suffix", "Add text at the start of the filename.")]
+        public string Suffix { get; set; }
 
+        #endregion
 
-		#region Public Methods
+        #endregion Public Properties
 
-		public bool Process(List<FileWrapper> files) {
-			foreach (var fileWrapper in files)
-				fileWrapper.OutputFilename =
-					new StringBuilder(fileWrapper.OutputFilename)
-						.Insert(InsertionPosition, Insert)
-						.Insert(0, Prefix)
-						.Append(Suffix)
-						.ToString();
+        #region Public Methods
 
-			return true;
-		}
+        public bool Process(List<FileWrapper> files) {
+            foreach (var fileWrapper in files)
+                fileWrapper.OutputFilename =
+                    new StringBuilder(fileWrapper.OutputFilename)
+                        .Insert(InsertionPosition, Insert)
+                        .Insert(0, Prefix)
+                        .Append(Suffix)
+                        .ToString();
 
-		#endregion Public Methods
-	}
+            return true;
+        }
+
+        #endregion Public Methods
+    }
 }
